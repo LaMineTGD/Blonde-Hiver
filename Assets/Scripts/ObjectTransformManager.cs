@@ -44,10 +44,10 @@ public class ObjectTransformManager : MonoBehaviour
         //StartCoroutine(LerpScale(m_Halo, 10, 3));
         //ToggleVisibility(m_Sun.gameObject);
 
-        //StartCoroutine("m_CityBlockCoroutine");
-        //StartCoroutine("m_ForestBlockCoroutine");
-        //StartCoroutine("m_CityLightCoroutine");
-        //StartCoroutine("m_CarCoroutine");
+        StartCoroutine("m_CityBlockCoroutine");
+        StartCoroutine("m_ForestBlockCoroutine");
+        StartCoroutine("m_CityLightCoroutine");
+        StartCoroutine("m_CarCoroutine");
     }
 
     void Update()
@@ -133,9 +133,15 @@ public class ObjectTransformManager : MonoBehaviour
     IEnumerator m_CityBlockCoroutine()
     {
         float _Time = 0;
+        bool _DumbFix = true;
         m_PassingObjects.Add(Instantiate(m_CityBlock), -m_Speed);
         while (_Time < 9)
         {
+            if (_Time > 0 && _DumbFix)
+            {
+                m_PassingObjects.Add(Instantiate(m_CityBlock), -m_Speed);
+                _DumbFix = false;
+            }
             _Time += Time.deltaTime;
             yield return null;
         }
