@@ -10,6 +10,7 @@ public class ObjectTransformManager : MonoBehaviour
     public bool m_CameraRotation = false;
     public bool m_CameraRotateAround = false;
     public float m_RotationFactor = -6.4f;
+    public float m_RotationSpeed;
     public UVScroller m_UVScroller;
     public OSCReceiver m_OSCReceiver;
     [Header("Game Objects")]
@@ -25,7 +26,7 @@ public class ObjectTransformManager : MonoBehaviour
     public GameObject m_Car;
     public GameObject m_ForestBlock;
 
-    float m_Speed;
+    float m_Speed = 2;
     Dictionary<GameObject, float> m_PassingObjects = new Dictionary<GameObject, float>();
     PostProcessVolume _PostProcessVolume;
     ColorGrading _ColorGrading;
@@ -57,7 +58,7 @@ public class ObjectTransformManager : MonoBehaviour
         List<GameObject> _ElementsToDelete = new List<GameObject>();
         foreach (KeyValuePair<GameObject,float> _PassingObject in m_PassingObjects)
         {
-            _PassingObject.Key.transform.RotateAround(m_CenterPlanetRotator.position, Vector3.right, _PassingObject.Value * Time.deltaTime);
+            _PassingObject.Key.transform.RotateAround(m_CenterPlanetRotator.position, Vector3.right, m_Speed * _PassingObject.Value * Time.deltaTime);
             if (_PassingObject.Key.transform.position.y <= 0f)
             {
                 _ElementsToDelete.Add(_PassingObject.Key);
@@ -72,13 +73,13 @@ public class ObjectTransformManager : MonoBehaviour
 
         if (Input.GetKeyDown("space"))
         {
-            Debug.Log("hey");
+            
         }
 
         if (m_CameraRotation)
-            Camera.main.transform.Rotate(Vector3.up * m_Speed * Time.deltaTime);
+            Camera.main.transform.Rotate(Vector3.up * m_RotationSpeed * Time.deltaTime);
         if(m_CameraRotateAround)
-            Camera.main.transform.RotateAround(m_CenterScreenRotator.position, Vector3.up, m_Speed * Time.deltaTime);
+            Camera.main.transform.RotateAround(m_CenterScreenRotator.position, Vector3.up, m_RotationSpeed * Time.deltaTime);
     }
 
     void ToggleVisibility(GameObject g)
@@ -134,12 +135,12 @@ public class ObjectTransformManager : MonoBehaviour
     {
         float _Time = 0;
         bool _DumbFix = true;
-        m_PassingObjects.Add(Instantiate(m_CityBlock), -m_Speed);
-        while (_Time < 9)
+        m_PassingObjects.Add(Instantiate(m_CityBlock), -1);
+        while (_Time < 15 / m_Speed)
         {
             if (_Time > 0 && _DumbFix)
             {
-                m_PassingObjects.Add(Instantiate(m_CityBlock), -m_Speed);
+                m_PassingObjects.Add(Instantiate(m_CityBlock), -1);
                 _DumbFix = false;
             }
             _Time += Time.deltaTime;
@@ -151,8 +152,8 @@ public class ObjectTransformManager : MonoBehaviour
     IEnumerator m_CityLightCoroutine()
     {
         float _Time = 0;
-        m_PassingObjects.Add(Instantiate(m_CityLight), -m_Speed);
-        while (_Time < 4)
+        m_PassingObjects.Add(Instantiate(m_CityLight), -1);
+        while (_Time < 7 / m_Speed)
         {
             _Time += Time.deltaTime;
             yield return null;
@@ -163,8 +164,8 @@ public class ObjectTransformManager : MonoBehaviour
     IEnumerator m_CarCoroutine()
     {
         float _Time = 0;
-        m_PassingObjects.Add(Instantiate(m_Car), -m_Speed*2);
-        while (_Time < 5)
+        m_PassingObjects.Add(Instantiate(m_Car), -2);
+        while (_Time < 7 / m_Speed)
         {
             _Time += Time.deltaTime;
             yield return null;
@@ -175,8 +176,8 @@ public class ObjectTransformManager : MonoBehaviour
     IEnumerator m_ForestBlockCoroutine()
     {
         float _Time = 0;
-        m_PassingObjects.Add(Instantiate(m_ForestBlock), -m_Speed);
-        while (_Time < 1)
+        m_PassingObjects.Add(Instantiate(m_ForestBlock), -1);
+        while (_Time < 5 / m_Speed)
         {
             _Time += Time.deltaTime;
             yield return null;
@@ -249,6 +250,7 @@ public class ObjectTransformManager : MonoBehaviour
 
     void OSCCamera(OSCMessage message)
     {
+        Debug.Log(message.Values[0].FloatValue * 256);
         switch (message.Values[0].FloatValue * 256)
         {
             case 0:

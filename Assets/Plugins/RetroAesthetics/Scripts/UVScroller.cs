@@ -33,7 +33,7 @@ namespace RetroAesthetics {
 
 		void MessageReceived(OSCMessage message)
         {
-			scrollSpeed = new Vector2(-10f * message.Values[0].FloatValue,0f);
+			scrollSpeed = new Vector2((message.Values[0].FloatValue - 0.5f) * -40f, 0f);
 		}
 	}
 }
