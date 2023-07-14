@@ -10,7 +10,7 @@ public class ObjectTransformManager : MonoBehaviour
     public bool m_CameraRotation = false;
     public bool m_CameraRotateAround = false;
     public float m_RotationFactor = -6.4f;
-    public float m_RotationSpeed;
+    public float m_CameraRotationSpeed;
     public UVScroller m_UVScroller;
     public OSCReceiver m_OSCReceiver;
     [Header("Game Objects")]
@@ -46,14 +46,17 @@ public class ObjectTransformManager : MonoBehaviour
         //ToggleVisibility(m_Sun.gameObject);
 
         StartCoroutine("m_CityBlockCoroutine");
-        StartCoroutine("m_ForestBlockCoroutine");
-        StartCoroutine("m_CityLightCoroutine");
-        StartCoroutine("m_CarCoroutine");
+        //StartCoroutine("m_ForestBlockCoroutine");
+        //StartCoroutine("m_CityLightCoroutine");
+        //StartCoroutine("m_CarCoroutine");
     }
 
     void Update()
     {
-        m_Speed = m_UVScroller.scrollSpeed.x / m_RotationFactor;
+        if(m_UVScroller.scrollSpeed.x != 0)
+            m_Speed = m_UVScroller.scrollSpeed.x / m_RotationFactor;
+        else
+            m_Speed = Mathf.Epsilon;
 
         List<GameObject> _ElementsToDelete = new List<GameObject>();
         foreach (KeyValuePair<GameObject,float> _PassingObject in m_PassingObjects)
@@ -77,9 +80,9 @@ public class ObjectTransformManager : MonoBehaviour
         }
 
         if (m_CameraRotation)
-            Camera.main.transform.Rotate(Vector3.up * m_RotationSpeed * Time.deltaTime);
+            Camera.main.transform.Rotate(Vector3.up * m_CameraRotationSpeed * Time.deltaTime);
         if(m_CameraRotateAround)
-            Camera.main.transform.RotateAround(m_CenterScreenRotator.position, Vector3.up, m_RotationSpeed * Time.deltaTime);
+            Camera.main.transform.RotateAround(m_CenterScreenRotator.position, Vector3.up, m_CameraRotationSpeed * Time.deltaTime);
     }
 
     void ToggleVisibility(GameObject g)
@@ -134,15 +137,9 @@ public class ObjectTransformManager : MonoBehaviour
     IEnumerator m_CityBlockCoroutine()
     {
         float _Time = 0;
-        bool _DumbFix = true;
         m_PassingObjects.Add(Instantiate(m_CityBlock), -1);
-        while (_Time < 15 / m_Speed)
+        while (_Time < 40 / m_Speed)
         {
-            if (_Time > 0 && _DumbFix)
-            {
-                m_PassingObjects.Add(Instantiate(m_CityBlock), -1);
-                _DumbFix = false;
-            }
             _Time += Time.deltaTime;
             yield return null;
         }
