@@ -8,6 +8,7 @@ public class ColorChanger : MonoBehaviour
     public Light m_PrimaryLight;
     public Light m_SecondaryLight;
     public MeshRenderer m_GridSphere;
+    public MeshRenderer m_Roof;
     public Terrain m_Terrain;
     public SpriteRenderer m_Halo;
     public SpriteRenderer m_Sun;
@@ -59,11 +60,16 @@ public class ColorChanger : MonoBehaviour
         m_OSCReceiver.Bind("/color2R", Color2R);
         m_OSCReceiver.Bind("/color2G", Color2G);
         m_OSCReceiver.Bind("/color2B", Color2B);
+
+        m_OSCReceiver.Bind("/colorGskyR", ColorGskyR);
+        m_OSCReceiver.Bind("/colorGskyG", ColorGskyG);
+        m_OSCReceiver.Bind("/colorGskyB", ColorGskyB);
+        m_OSCReceiver.Bind("/colorGskyA", ColorGskyA);
     }
 
     void Update()
     {
-        
+
     }
 
     IEnumerator LerpColor(string _ObjectToChange, Color _TargetColor, float _LerpDuration)
@@ -356,5 +362,25 @@ public class ColorChanger : MonoBehaviour
     {
         m_GridSphere.material.SetColor("_EmissionColor", new Color(m_Terrain.materialTemplate.GetColor("_EmissionColor").r, m_Terrain.materialTemplate.GetColor("_EmissionColor").g, message.Values[0].FloatValue));
         m_SecondaryLight.color = new Color(m_SecondaryLight.color.r, m_SecondaryLight.color.g, message.Values[0].FloatValue);
+    }
+
+    void ColorGskyR(OSCMessage message)
+    {
+        m_Roof.material.SetColor("_EmissionColor", new Color(message.Values[0].FloatValue, m_Roof.material.GetColor("_EmissionColor").g, m_Roof.material.GetColor("_EmissionColor").b));
+    }
+
+    void ColorGskyG(OSCMessage message)
+    {
+        m_Roof.material.SetColor("_EmissionColor", new Color(m_Roof.material.GetColor("_EmissionColor").r, message.Values[0].FloatValue, m_Roof.material.GetColor("_EmissionColor").b));
+    }
+
+    void ColorGskyB(OSCMessage message)
+    {
+        m_Roof.material.SetColor("_EmissionColor", new Color(m_Roof.material.GetColor("_EmissionColor").r, m_Roof.material.GetColor("_EmissionColor").g, message.Values[0].FloatValue));
+    }
+
+    void ColorGskyA(OSCMessage message)
+    {
+        m_Roof.material.SetColor("_Color", new Color(m_Roof.material.GetColor("_Color").r, m_Roof.material.GetColor("_Color").g, m_Roof.material.GetColor("_Color").b, message.Values[0].FloatValue));
     }
 }

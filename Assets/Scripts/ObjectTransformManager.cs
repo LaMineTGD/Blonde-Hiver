@@ -45,10 +45,10 @@ public class ObjectTransformManager : MonoBehaviour
         //StartCoroutine(LerpScale(m_Halo, 10, 3));
         //ToggleVisibility(m_Sun.gameObject);
 
-        //StartCoroutine("m_CityBlockCoroutine");
-        //StartCoroutine("m_ForestBlockCoroutine");
-        //StartCoroutine("m_CityLightCoroutine");
-        //StartCoroutine("m_CarCoroutine");
+        StartCoroutine("m_CityBlockCoroutine");
+        StartCoroutine("m_ForestBlockCoroutine");
+        StartCoroutine("m_CityLightCoroutine");
+        StartCoroutine("m_CarCoroutine");
     }
 
     void Update()
