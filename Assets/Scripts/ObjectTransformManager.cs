@@ -7,7 +7,9 @@ using extOSC;
 
 public class ObjectTransformManager : MonoBehaviour
 {
-    public bool m_CameraRotation = false;
+    public bool m_CameraXRotation = false;
+    public bool m_CameraYRotation = false;
+    public bool m_CameraZRotation = false;
     public bool m_CameraRotateAround = false;
     public float m_RotationFactor = -6.4f;
     public float m_CameraRotationSpeed;
@@ -28,17 +30,16 @@ public class ObjectTransformManager : MonoBehaviour
 
     float m_Speed = 2;
     Dictionary<GameObject, float> m_PassingObjects = new Dictionary<GameObject, float>();
-    PostProcessVolume _PostProcessVolume;
-    ColorGrading _ColorGrading;
     int ActivatedCoroutines = 0;
+    ColorChanger m_ColorChanger;
 
     void Start()
     {
-        _PostProcessVolume = Camera.main.GetComponent<PostProcessVolume>();
-        _ColorGrading = _PostProcessVolume.sharedProfile.GetSetting<ColorGrading>();
-
         m_OSCReceiver.Bind("/paysage", OSCPaysage);
         m_OSCReceiver.Bind("/camera", OSCCamera);
+
+        m_ColorChanger = GetComponent<ColorChanger>();
+        //m_ColorChanger.StartingFade();
 
         //StartCoroutine(m_PostProcessColor(3, new Color(0,0,0)));
         //StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(17,302,20), 3));
@@ -75,9 +76,13 @@ public class ObjectTransformManager : MonoBehaviour
             Destroy(_ObjectToDelete);
         }
 
-        if (m_CameraRotation)
+        if (m_CameraXRotation)
+            Camera.main.transform.Rotate(Vector3.right * m_CameraRotationSpeed * Time.deltaTime);
+        if (m_CameraYRotation)
             Camera.main.transform.Rotate(Vector3.up * m_CameraRotationSpeed * Time.deltaTime);
-        if(m_CameraRotateAround)
+        if (m_CameraZRotation)
+            Camera.main.transform.Rotate(Vector3.forward * m_CameraRotationSpeed * Time.deltaTime);
+        if (m_CameraRotateAround)
             Camera.main.transform.RotateAround(m_CenterScreenRotator.position, Vector3.up, m_CameraRotationSpeed * Time.deltaTime);
 
         if (Input.GetKeyDown("space"))
@@ -183,19 +188,6 @@ public class ObjectTransformManager : MonoBehaviour
         StartCoroutine("m_ForestBlockCoroutine");
     }
 
-    IEnumerator m_PostProcessColor(float _Duration, Color _TargetColor)
-    {
-        float _Time = 0;
-        Color _StartValue = _ColorGrading.colorFilter.value;
-        while (_Time < _Duration)
-        {
-            _ColorGrading.colorFilter.value = Color.Lerp(_StartValue, _TargetColor, _Time / _Duration);
-            _Time += Time.deltaTime;
-            yield return null;
-        }
-        _ColorGrading.colorFilter.value = _TargetColor;
-    }
-
     public void ChangeSpeed(float _NewSpeed)
     {
         m_Speed = _NewSpeed / m_RotationFactor;
@@ -250,32 +242,66 @@ public class ObjectTransformManager : MonoBehaviour
 
     void OSCCamera(OSCMessage message)
     {
-        Debug.Log(message.Values[0].FloatValue * 256);
         switch (message.Values[0].FloatValue * 256)
         {
             case 0:
-                m_CameraRotation = false;
+                m_CameraXRotation = false;
+                m_CameraYRotation = false;
+                m_CameraZRotation = false;
                 m_CameraRotateAround = false;
                 StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(0,256,-35), 5));
                 StartCoroutine(LerpRotation(Camera.main.transform, Quaternion.Euler(new Vector3(0, 0, 0)), 5));
                 break;
             case 1:
-                m_CameraRotation = false;
+                m_CameraXRotation = false;
+                m_CameraYRotation = false;
+                m_CameraZRotation = false;
                 m_CameraRotateAround = true;
-                StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(0, 256, -35), 3));
-                StartCoroutine(LerpRotation(Camera.main.transform, Quaternion.Euler(new Vector3(0, 0, 0)), 3));
                 break;
             case 2:
-                m_CameraRotation = true;
+                m_CameraXRotation = false;
+                m_CameraYRotation = true;
+                m_CameraZRotation = false;
                 m_CameraRotateAround = false;
-                StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(0, 256, -35), 3));
-                StartCoroutine(LerpRotation(Camera.main.transform, Quaternion.Euler(new Vector3(0, 0, 0)), 3));
                 break;
             case 3:
-                m_CameraRotation = false;
+                m_CameraXRotation = false;
+                m_CameraYRotation = false;
+                m_CameraZRotation = false;
                 m_CameraRotateAround = false;
-                StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(70, 287, -84), 5));
-                StartCoroutine(LerpRotation(Camera.main.transform, Quaternion.Euler(new Vector3(7, -14, 0)), 5));
+                break;
+            case 4:
+                m_CameraRotationSpeed = -5;
+                break;
+            case 5:
+                m_CameraRotationSpeed = -2;
+                break;
+            case 6:
+                m_CameraRotationSpeed = 0;
+                break;
+            case 7:
+                m_CameraRotationSpeed = 2;
+                break;
+            case 8:
+                m_CameraRotationSpeed = 5;
+                break;
+            case 9:
+                m_CameraXRotation = true;
+                m_CameraYRotation = false;
+                m_CameraZRotation = false;
+                m_CameraRotateAround = false;
+                break;
+            case 10:
+                m_CameraXRotation = false;
+                m_CameraYRotation = false;
+                m_CameraZRotation = true;
+                m_CameraRotateAround = false;
+                break;
+            case 255:
+                m_ColorChanger.StartingFade();
+                break;
+            case 256:
+                m_ColorChanger.StartingFade();
                 break;
             default:
                 print("Caméra : Pas la bonne valeur");

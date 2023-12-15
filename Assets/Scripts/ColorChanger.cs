@@ -71,12 +71,16 @@ public class ColorChanger : MonoBehaviour
 
         m_ColorGrading = Camera.main.GetComponent<PostProcessVolume>().profile.GetSetting<ColorGrading>();
         m_ColorGrading.colorFilter.value = Color.black;
-        StartCoroutine(LerpColor("PostProcess", Color.white, 5f));
     }
 
     void Update()
     {
 
+    }
+
+    public void StartingFade()
+    {
+        StartCoroutine(LerpColor("PostProcess", Color.white, 5f));
     }
 
     IEnumerator LerpColor(string _ObjectToChange, Color _TargetColor, float _LerpDuration)
