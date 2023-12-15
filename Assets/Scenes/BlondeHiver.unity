@@ -12349,7 +12349,7 @@ GameObject:
   - component: {fileID: 379059148}
   - component: {fileID: 379059147}
   - component: {fileID: 379059150}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Blonde
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12609,7 +12609,7 @@ GameObject:
   - component: {fileID: 639020173}
   - component: {fileID: 639020175}
   - component: {fileID: 639020174}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12830,61 +12830,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1381882985}
   m_LocalEulerAnglesHint: {x: 184, y: 0, z: 0}
---- !u!21 &804286794
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Hidden/RetroCameraEffect
-  m_Shader: {fileID: 4800000, guid: 2cfdcae76c757405786f1219a383da6e, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - CHROMATIC_ON
-  - DISPLACEMENT_ON
-  - NOISE_ON
-  - SCANLINES_ON
-  - VIGNETTE_ON
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SecondaryTex:
-        m_Texture: {fileID: 2800000, guid: 0ecedd370a77a4a3dbbb9cc9e09081cd, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ChromaticAberration: 4
-    - _DisplacementAmplitude: 0.00020000001
-    - _DisplacementFrequency: 60
-    - _DisplacementSpeed: 0.2
-    - _NoiseBottomHeight: 0.04
-    - _NoiseBottomIntensity: 1
-    - _OffsetNoiseX: 0.4067933
-    - _OffsetNoiseY: 0.19821763
-    - _StaticIntensity: 1
-    - _UseChromaticAberration: 1
-    - _UseDisplacement: 1
-    - _UseStaticNoise: 1
-    - _UseVignette: 0
-    - _Vignette: 0.116
-    m_Colors:
-    - _OffsetPos: {r: 0, g: 0, b: 0, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &838515819
 GameObject:
   m_ObjectHideFlags: 0
@@ -13378,6 +13323,61 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!21 &1178736634
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hidden/RetroCameraEffect
+  m_Shader: {fileID: 4800000, guid: 2cfdcae76c757405786f1219a383da6e, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - CHROMATIC_ON
+  - DISPLACEMENT_ON
+  - NOISE_ON
+  - SCANLINES_ON
+  - VIGNETTE_ON
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SecondaryTex:
+        m_Texture: {fileID: 2800000, guid: 0ecedd370a77a4a3dbbb9cc9e09081cd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ChromaticAberration: 4
+    - _DisplacementAmplitude: 0.00020000001
+    - _DisplacementFrequency: 60
+    - _DisplacementSpeed: 0.2
+    - _NoiseBottomHeight: 0.04
+    - _NoiseBottomIntensity: 1
+    - _OffsetNoiseX: 0.44992048
+    - _OffsetNoiseY: 0.072375484
+    - _StaticIntensity: 1
+    - _UseChromaticAberration: 1
+    - _UseDisplacement: 1
+    - _UseStaticNoise: 1
+    - _UseVignette: 0
+    - _Vignette: 0.116
+    m_Colors:
+    - _OffsetPos: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1194633241
 GameObject:
   m_ObjectHideFlags: 0
@@ -13492,7 +13492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1259051956}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13582,7 +13582,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 383
+    m_Bits: 351
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -13631,7 +13631,7 @@ MonoBehaviour:
   useScanlines: 1
   scanlineSize: 256
   scanlineIntensity: 0
-  _material: {fileID: 804286794}
+  _material: {fileID: 1178736634}
 --- !u!114 &1275133465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13877,7 +13877,7 @@ GameObject:
   - component: {fileID: 1346736208}
   - component: {fileID: 1346736207}
   - component: {fileID: 1346736206}
-  m_Layer: 3
+  m_Layer: 5
   m_Name: Hiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16363,7 +16363,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 1275133463}
+  m_Camera: {fileID: 1846652368}
   m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -21763,7 +21763,7 @@ GameObject:
   - component: {fileID: 1846652369}
   - component: {fileID: 1846652368}
   m_Layer: 0
-  m_Name: DebugCamera
+  m_Name: UICamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21808,7 +21808,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 160
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

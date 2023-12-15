@@ -2,9 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using extOSC;
+using UnityEngine.Rendering.PostProcessing;
 
 public class ColorChanger : MonoBehaviour
 {
+    private ColorGrading m_ColorGrading;
+
     public Light m_PrimaryLight;
     public Light m_SecondaryLight;
     public MeshRenderer m_GridSphere;
@@ -65,6 +68,10 @@ public class ColorChanger : MonoBehaviour
         m_OSCReceiver.Bind("/colorGskyG", ColorGskyG);
         m_OSCReceiver.Bind("/colorGskyB", ColorGskyB);
         m_OSCReceiver.Bind("/colorGskyA", ColorGskyA);
+
+        m_ColorGrading = Camera.main.GetComponent<PostProcessVolume>().profile.GetSetting<ColorGrading>();
+        m_ColorGrading.colorFilter.value = Color.black;
+        StartCoroutine(LerpColor("PostProcess", Color.white, 5f));
     }
 
     void Update()
@@ -210,6 +217,17 @@ public class ColorChanger : MonoBehaviour
                 }
                 m_HiverText.color = _TargetColor;
                 yield return m_HiverText.color;
+                break;
+            case "PostProcess":
+                _StartColor = Color.black;
+                while (_TimeElapsed < _LerpDuration)
+                {
+                    m_ColorGrading.colorFilter.value = Color.Lerp(_StartColor, _TargetColor, _TimeElapsed / _LerpDuration);
+                    _TimeElapsed += Time.deltaTime;
+                    yield return m_ColorGrading.colorFilter.value;
+                }
+                m_ColorGrading.colorFilter.value = _TargetColor;
+                yield return m_ColorGrading.colorFilter.value;
                 break;
         }
     }
