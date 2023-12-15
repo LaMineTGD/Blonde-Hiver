@@ -30,6 +30,7 @@ public class ObjectTransformManager : MonoBehaviour
     Dictionary<GameObject, float> m_PassingObjects = new Dictionary<GameObject, float>();
     PostProcessVolume _PostProcessVolume;
     ColorGrading _ColorGrading;
+    int ActivatedCoroutines = 0;
 
     void Start()
     {
@@ -74,15 +75,15 @@ public class ObjectTransformManager : MonoBehaviour
             Destroy(_ObjectToDelete);
         }
 
-        if (Input.GetKeyDown("space"))
-        {
-            
-        }
-
         if (m_CameraRotation)
             Camera.main.transform.Rotate(Vector3.up * m_CameraRotationSpeed * Time.deltaTime);
         if(m_CameraRotateAround)
             Camera.main.transform.RotateAround(m_CenterScreenRotator.position, Vector3.up, m_CameraRotationSpeed * Time.deltaTime);
+
+        if (Input.GetKeyDown("space"))
+        {
+
+        }
     }
 
     void ToggleVisibility(GameObject g)
@@ -211,9 +212,11 @@ public class ObjectTransformManager : MonoBehaviour
                 break;
             case 2:
                 StartCoroutine("m_ForestBlockCoroutine");
+                ActivatedCoroutines++;
                 break;
             case 3:
                 StopCoroutine("m_ForestBlockCoroutine");
+                ActivatedCoroutines--;
                 break;
             case 4:
                 StartCoroutine("m_CityLightCoroutine");
@@ -253,8 +256,8 @@ public class ObjectTransformManager : MonoBehaviour
             case 0:
                 m_CameraRotation = false;
                 m_CameraRotateAround = false;
-                StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(0,256,-35), 3));
-                StartCoroutine(LerpRotation(Camera.main.transform, Quaternion.Euler(new Vector3(0, 0, 0)), 3));
+                StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(0,256,-35), 5));
+                StartCoroutine(LerpRotation(Camera.main.transform, Quaternion.Euler(new Vector3(0, 0, 0)), 5));
                 break;
             case 1:
                 m_CameraRotation = false;
@@ -271,8 +274,8 @@ public class ObjectTransformManager : MonoBehaviour
             case 3:
                 m_CameraRotation = false;
                 m_CameraRotateAround = false;
-                StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(17, 302, 20), 3));
-                StartCoroutine(LerpRotation(Camera.main.transform, Quaternion.Euler(new Vector3(47, 39, 0)), 3));
+                StartCoroutine(LerpPosition(Camera.main.transform, new Vector3(70, 287, -84), 5));
+                StartCoroutine(LerpRotation(Camera.main.transform, Quaternion.Euler(new Vector3(7, -14, 0)), 5));
                 break;
             default:
                 print("Caméra : Pas la bonne valeur");
