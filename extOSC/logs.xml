@@ -1,8 +1,1 @@
-<root>
-  <message info="Receiver: 2346. From: 127.0.0.1:57733" type="Received" timestamp="[16:03:52]">
-    <packet>L2NhbWVyYQAsaQAA////gg==</packet>
-  </message>
-  <message info="Receiver: 2346. From: 127.0.0.1:56935" type="Received" timestamp="[16:01:02]">
-    <packet>L2NhbWVyYQAsaQAA////gg==</packet>
-  </message>
-</root>
+<root />
